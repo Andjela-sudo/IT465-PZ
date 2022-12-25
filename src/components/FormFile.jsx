@@ -1,7 +1,7 @@
 import { Button, ButtonGroup, Grid } from '@mui/material'
 import React from 'react'
 
-const FormFile = () => {
+const FormFile = (props) => {
 
     const onDownload = () => {
         const link = document.createElement("a");

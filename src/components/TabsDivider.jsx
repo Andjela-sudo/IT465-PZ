@@ -16,7 +16,14 @@ const TabsDivider = (props) => {
     };
 
     return (
-        <Box sx={{ width: '100%', typography: 'body1' }}>
+        <Box sx={(t) => {
+            return {
+                width: '100%',
+                typography: 'body1',
+                backgroundColor: t.palette.action.disabledBackground,
+                borderRadius: '10px',
+            }
+        }}>
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -24,10 +31,17 @@ const TabsDivider = (props) => {
                         <Tab label="File" value="2" />
                     </TabList>
                 </Box>
-                <TabPanel value="1"><FormText message = {props.message}  setMessage = {props.setMessage} encryptTextMessage={props.encryptTextMessage} /></TabPanel>
-                <TabPanel value="2"><FormFile /></TabPanel>
+                <TabPanel value="1">
+                    <FormText
+                        message={props.state.message}
+                        dispatch={props.dispatch}
+                        encryptTextMessage={props.encryptTextMessage} />
+                </TabPanel>
+                <TabPanel value="2">
+                    <FormFile />
+                </TabPanel>
             </TabContext>
-        </Box>
+        </Box >
     );
 }
 

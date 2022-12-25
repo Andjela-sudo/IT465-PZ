@@ -12,8 +12,8 @@ const FormText = (props) => {
                     label="Message"
                     placeholder={'Enter message'}
                     variant="outlined"
-                    onChange={ (e) => {props.setMessage(e.target.value)} }
-                    />
+                    onChange={(e) => { props.dispatch({ type: "set_message", payload: e.target.value }) }}
+                />
             </Grid>
             <Grid item xs={12}>
                 <TextField
