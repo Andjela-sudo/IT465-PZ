@@ -35,7 +35,9 @@ const TabsDivider = (props) => {
                     <FormText
                         message={props.state.message}
                         dispatch={props.dispatch}
-                        encryptTextMessage={props.encryptTextMessage} />
+                        state={props.state}
+                        encryptTextMessage={props.encryptTextMessage}
+                        decryptTextMessage={props.decryptTextMessage} />
                 </TabPanel>
                 <TabPanel value="2">
                     <FormFile />

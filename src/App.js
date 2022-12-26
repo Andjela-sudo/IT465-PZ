@@ -1,7 +1,8 @@
 import { createTheme, CssBaseline, Stack, ThemeProvider } from '@mui/material';
 import Container from '@mui/material/Container';
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import TabsDivider from './components/TabsDivider';
+import { stringEncryption, stringEncryptionDecription } from './vernam_cipher';
 
 const theme = createTheme({
   palette: {
@@ -17,6 +18,7 @@ function App() {
       case 'set_key': return { ...state, key: action.payload }
       case 'set_should_track_mouse': return { ...state, shouldTrackMouse: action.payload }
       case 'set_message': return { ...state, message: action.payload }
+      case 'set_answer': return { ...state, answer: action.payload }
       default: return state
     }
   }
@@ -25,23 +27,41 @@ function App() {
     key: '',
     shouldTrackMouse: true,
     message: '',
+    answer: '',
   });
-
-
-  // useEffect(()=>{},[key])
 
   const encryptTextMessage = () => {
     dispatch({ type: "set_should_track_mouse", payload: false });
-    dispatch({ type: "set_key", payload: state.key.slice(0, state.message.length) });
+    dispatch({
+      type: "set_key",
+      payload: state.key.slice(0, state.message.length),
+    })
 
-    // enkriptovanje poruke
-    // stringEncryption(message, key)
+    console.log(state.key);
+    let result = stringEncryptionDecription(state.message, state.key)
+    console.log(result);
+    dispatch({ type: "set_answer", payload: result });
+  }
 
-    //cuvanje key u dokument
+  const decryptTextMessage = () => {
+    let result = stringEncryptionDecription(state.message, state.key)
+    console.log(result);
+    dispatch({ type: "set_answer", payload: result });
+
   }
 
   const handleMouseMove = (event) => {
-    dispatch({ type: "set_key", payload: state.key + (event.clientX + event.clientY) });
+    let charCode = ''
+    if (event.clientX == 0) {
+      charCode = event.clientY
+    }
+    else if (event.clientY == 0) {
+      charCode = event.clientX
+    } else {
+      charCode = (event.clientX + event.clientY)
+    }
+
+    dispatch({ type: "set_key", payload: state.key + String.fromCharCode(charCode) });
   }
 
   return (
@@ -62,7 +82,8 @@ function App() {
           <TabsDivider
             state={state}
             dispatch={dispatch}
-            encryptTextMessage={encryptTextMessage} />
+            encryptTextMessage={encryptTextMessage}
+            decryptTextMessage={decryptTextMessage} />
         </Stack>
       </Container>
     </ThemeProvider>
