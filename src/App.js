@@ -19,6 +19,7 @@ function App() {
       case 'set_should_track_mouse': return { ...state, shouldTrackMouse: action.payload }
       case 'set_message': return { ...state, message: action.payload }
       case 'set_answer': return { ...state, answer: action.payload }
+      case 'set_file_key': return { ...state, fileKey: action.payload }
       default: return state
     }
   }
@@ -28,6 +29,7 @@ function App() {
     shouldTrackMouse: true,
     message: '',
     answer: '',
+    fileKey: ''
   });
 
   const encryptTextMessage = () => {
@@ -37,15 +39,12 @@ function App() {
       payload: state.key.slice(0, state.message.length),
     })
 
-    console.log(state.key);
     let result = stringEncryptionDecription(state.message, state.key)
-    console.log(result);
     dispatch({ type: "set_answer", payload: result });
   }
 
   const decryptTextMessage = () => {
     let result = stringEncryptionDecription(state.message, state.key)
-    console.log(result);
     dispatch({ type: "set_answer", payload: result });
 
   }
