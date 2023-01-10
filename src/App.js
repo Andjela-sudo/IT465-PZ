@@ -21,6 +21,7 @@ function App() {
       case 'set_answer': return { ...state, answer: action.payload }
       case 'set_file_key': return { ...state, fileKey: action.payload }
       case 'set_file': return {...state, file: action.payload}
+      case 'set_download_file': return {...state, download_file: action.payload}
       default: return state
     }
   }
@@ -32,6 +33,7 @@ function App() {
     answer: '',
     fileKey: '',
     file: '',
+    download_file: true,
   });
 
   const encryptTextMessage = () => {
@@ -62,13 +64,13 @@ function App() {
 
     console.log(state.file);
     let result = stringEncryptionDecription(state.file.toString(), state.key)
-   // dispatch({ type: "set_answer", payload: result });
+    dispatch({ type: "set_file", payload: result });
     console.log(result);
   }
 
   const decryptFile = () => {
     let result = stringEncryptionDecription(state.file, state.key)
-    //dispatch({ type: "set_answer", payload: result });
+    dispatch({ type: "set_file", payload: result });
   }
 
 

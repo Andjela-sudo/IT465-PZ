@@ -13,6 +13,8 @@ const TabsDivider = (props) => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        props.dispatch({ type: "set_key", payload: '' });
+        props.dispatch({ type: "set_should_track_mouse", payload: true });
     };
 
     return (

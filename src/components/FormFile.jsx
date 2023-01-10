@@ -38,11 +38,18 @@ const FormFile = (props) => {
 
     }
 
-    const onDownload = () => {
+    const onDownloadFile = () => {
         const link = document.createElement("a");
+        link.download = `file.txt`;
+        link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(props.state.file);
+        link.click();
+
+        props.dispatch({ type: "set_download_file", payload: true });
+     
+        /*  const link = document.createElement("a");
         link.download = `download.txt`;
         link.href = "./download.txt";
-        link.click();
+        link.click(); */
     };
 
     const onUploadFile = (event) => {
@@ -62,6 +69,8 @@ const FormFile = (props) => {
         if (file) {
             reader.readAsText(file);
         }
+
+        props.dispatch({ type: "set_download_file", payload: false });
     };
 
     return (
@@ -97,7 +106,7 @@ const FormFile = (props) => {
                 </ButtonGroup>
             </Grid>
             <Grid item xs={12}>
-                <Button onClick={onDownload} variant="contained" color="primary" disabled={true}>
+                <Button onClick={onDownloadFile} variant="contained" color="primary" disabled={props.state.download_file}>
                     Download file
                 </Button>
             </Grid>

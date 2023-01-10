@@ -1,4 +1,6 @@
 export const stringEncryptionDecription = ( text, key ) => {
+    if(!key)
+    return
     let answer = "";
     let p = 0;
  
