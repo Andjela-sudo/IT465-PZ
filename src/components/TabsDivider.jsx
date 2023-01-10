@@ -13,6 +13,8 @@ const TabsDivider = (props) => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        props.dispatch({ type: "set_key", payload: '' });
+        props.dispatch({ type: "set_should_track_mouse", payload: true });
     };
 
     return (
@@ -43,8 +45,8 @@ const TabsDivider = (props) => {
                     <FormFile
                         dispatch={props.dispatch}
                         state={props.state}
-                        encryptTextMessage={props.encryptTextMessage}
-                        decryptTextMessage={props.decryptTextMessage} />
+                        encryptFile={props.encryptFile}
+                        decryptFile={props.decryptFile} />
                 </TabPanel>
             </TabContext>
         </Box >

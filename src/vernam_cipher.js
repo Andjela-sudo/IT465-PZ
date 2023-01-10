@@ -1,7 +1,10 @@
 export const stringEncryptionDecription = ( text, key ) => {
+    if(!key)
+    return
     let answer = "";
     let p = 0;
  
+    console.log(text);
     ([...text]).forEach(char => {
         answer += String.fromCharCode(char.charCodeAt(0) ^ (key[p]).charCodeAt(0)) 
         p += 1

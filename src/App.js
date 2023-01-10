@@ -7,7 +7,7 @@ import { stringEncryption, stringEncryptionDecription } from './vernam_cipher';
 const theme = createTheme({
   palette: {
     mode: 'dark',
-  },
+   },
 });
 
 
@@ -20,6 +20,8 @@ function App() {
       case 'set_message': return { ...state, message: action.payload }
       case 'set_answer': return { ...state, answer: action.payload }
       case 'set_file_key': return { ...state, fileKey: action.payload }
+      case 'set_file': return {...state, file: action.payload}
+      case 'set_download_file': return {...state, download_file: action.payload}
       default: return state
     }
   }
@@ -29,7 +31,9 @@ function App() {
     shouldTrackMouse: true,
     message: '',
     answer: '',
-    fileKey: ''
+    fileKey: '',
+    file: '',
+    download_file: true,
   });
 
   const encryptTextMessage = () => {
@@ -41,6 +45,7 @@ function App() {
 
     let result = stringEncryptionDecription(state.message, state.key)
     dispatch({ type: "set_answer", payload: result });
+    console.log(result);
   }
 
   const decryptTextMessage = () => {
@@ -48,6 +53,26 @@ function App() {
     dispatch({ type: "set_answer", payload: result });
 
   }
+
+
+  const encryptFile = () => {
+    dispatch({ type: "set_should_track_mouse", payload: false });
+    dispatch({
+      type: "set_key",
+      payload: state.key.slice(0, state.file.length),
+    })
+
+    console.log(state.file);
+    let result = stringEncryptionDecription(state.file.toString(), state.key)
+    dispatch({ type: "set_file", payload: result });
+    console.log(result);
+  }
+
+  const decryptFile = () => {
+    let result = stringEncryptionDecription(state.file, state.key)
+    dispatch({ type: "set_file", payload: result });
+  }
+
 
   const handleMouseMove = (event) => {
     let charCode = ''
@@ -82,7 +107,10 @@ function App() {
             state={state}
             dispatch={dispatch}
             encryptTextMessage={encryptTextMessage}
-            decryptTextMessage={decryptTextMessage} />
+            decryptTextMessage={decryptTextMessage}
+            encryptFile={encryptFile}
+            decryptFile={decryptFile}        
+           />
         </Stack>
       </Container>
     </ThemeProvider>
