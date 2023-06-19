@@ -39,10 +39,18 @@ const FormFile = (props) => {
     }
 
     const onDownloadFile = () => {
-        const link = document.createElement("a");
-        link.download = `file.txt`;
-        link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(props.state.file);
-        link.click();
+      
+       // link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(props.state.file);
+       const link = document.createElement("a");
+       link.href = URL.createObjectURL(props.state.file);
+
+      // link.href = props.state.file;
+       link.download = 'file.txt';
+       link.target = '_blank';
+       link.rel = 'noopener noreferrer';
+       document.body.appendChild(link);
+       link.click();
+       document.body.removeChild(link);
 
         props.dispatch({ type: "set_download_file", payload: true });
      
@@ -57,18 +65,20 @@ const FormFile = (props) => {
         const fileList = event.target.files;
         let file = fileList[0]
 
-        const reader = new FileReader();
+       // const reader = new FileReader();
 
-        reader.addEventListener("load", () => {
-            // this will then display a text file
-            console.log(reader.result);
-            props.dispatch({ type: "set_file", payload:reader.result })
+        // reader.addEventListener("load", () => {
+        //     // this will then display a text file
+        //     console.log(reader.result);
+        //     props.dispatch({ type: "set_file", payload:reader.result })
             
-        }, false);
+        // }, false);
 
-        if (file) {
-            reader.readAsText(file);
-        }
+        // if (file) {
+        //     reader.readAsText(file);
+        // }
+
+        props.dispatch({ type: "set_file", payload:file })
 
         props.dispatch({ type: "set_download_file", payload: false });
     };
